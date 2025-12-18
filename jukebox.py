@@ -18,6 +18,14 @@ except ImportError:
     PYGAME_AVAILABLE = False
     print("Warning: pygame not available. Audio playback will be simulated.")
 
+# Import LED control module
+try:
+    from led_control import get_led_controller
+    LED_CONTROL_AVAILABLE = True
+except ImportError:
+    LED_CONTROL_AVAILABLE = False
+    print("Warning: LED control module not available.")
+
 
 class Jukebox:
     """Main Jukebox class for managing music playback"""
@@ -34,6 +42,12 @@ class Jukebox:
         
         if PYGAME_AVAILABLE:
             pygame.mixer.init()
+        
+        # Initialize LED controller
+        if LED_CONTROL_AVAILABLE:
+            self.led_controller = get_led_controller(self.config.get("led_enabled", False))
+        else:
+            self.led_controller = None
         
         # Load initial playlist if specified
         if "default_playlist" in self.config:
@@ -200,29 +214,22 @@ class Jukebox:
     
     def _update_leds(self):
         """Update LED status based on playback state"""
-        if not self.config.get("led_enabled", False):
+        if not self.config.get("led_enabled", False) or not self.led_controller:
             return
         
         # LED control logic for JAL200 LEDs
-        # This is a placeholder - actual implementation depends on hardware
         try:
             if self.is_playing and not self.is_paused:
                 # Green LED for playing
-                self._set_led_color("green")
+                self.led_controller.set_color("green")
             elif self.is_paused:
                 # Yellow LED for paused
-                self._set_led_color("yellow")
+                self.led_controller.set_color("yellow")
             else:
                 # Red LED for stopped
-                self._set_led_color("red")
+                self.led_controller.set_color("red")
         except Exception as e:
             print(f"LED update error: {e}")
-    
-    def _set_led_color(self, color: str):
-        """Set LED color (placeholder for actual hardware control)"""
-        # This would interface with actual LED hardware
-        # For now, just log the action
-        pass
 
 
 def main():
