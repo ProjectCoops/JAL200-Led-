@@ -1,0 +1,6 @@
+# Example playlist file
+# Add paths to your music files, one per line
+# Example:
+# /path/to/song1.mp3
+# /path/to/song2.mp3
+# ./music/song3.mp3
