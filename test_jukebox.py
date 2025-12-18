@@ -20,7 +20,7 @@ def test_jukebox_initialization():
     assert jukebox is not None
     assert jukebox.playlist == []
     assert jukebox.current_index == 0
-    assert jukebox.is_playing == False
+    assert not jukebox.is_playing
     print("✓ Jukebox initialization successful")
 
 
@@ -69,18 +69,18 @@ def test_shuffle_and_repeat():
     jukebox = Jukebox()
     
     # Test shuffle toggle
-    assert jukebox.shuffle_mode == False
+    assert not jukebox.shuffle_mode
     jukebox.toggle_shuffle()
-    assert jukebox.shuffle_mode == True
+    assert jukebox.shuffle_mode
     jukebox.toggle_shuffle()
-    assert jukebox.shuffle_mode == False
+    assert not jukebox.shuffle_mode
     
     # Test repeat toggle
-    assert jukebox.repeat_mode == False
+    assert not jukebox.repeat_mode
     jukebox.toggle_repeat()
-    assert jukebox.repeat_mode == True
+    assert jukebox.repeat_mode
     jukebox.toggle_repeat()
-    assert jukebox.repeat_mode == False
+    assert not jukebox.repeat_mode
     
     print("✓ Shuffle and repeat modes working correctly")
 
@@ -110,7 +110,7 @@ def test_led_controller():
     led = LEDController(enabled=False)
     
     assert led is not None
-    assert led.enabled == False
+    assert not led.enabled
     assert led.current_color == "off"
     
     # Test color setting (should work even when disabled)
