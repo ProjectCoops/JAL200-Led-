@@ -1,0 +1,6 @@
+{
+    "music_dir": "./music",
+    "volume": 0.7,
+    "led_enabled": false,
+    "default_playlist": "./music"
+}
